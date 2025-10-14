@@ -99,6 +99,8 @@ Given one entry of 25 words, and a wpm of 5 and 5 minutes
 #best_entry returns the entry
 """
 
+
+
 """
 Given no entry under 25 words and a wpm of 5 and 5 minutes
 #best_entry returns "No entry available."

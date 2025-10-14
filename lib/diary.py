@@ -55,13 +55,25 @@ class DiaryEntry:
     #   contents: a string
 
     def __init__(self, title, contents): # title, contents are strings
+
+        self.validate_input("title", title)
+        self.validate_input("contents", contents)
+
         self.title = title
         self.contents = contents
+        self.words = contents.split()
+        self.words_read = 0
+        
+    def validate_input(self, field_name, value):
+        if not isinstance(value, str):
+            raise Exception(f"{field_name} must be a string.")
+        if value == "":
+            raise Exception(f"Entry {field_name} is empty")
 
     def count_words(self):
         # Returns:
         #   An integer representing the number of words in the contents
-        return len(self.contents.split())
+        return len(self.words)
 
     def reading_time(self, wpm):
         # Parameters:
@@ -84,4 +96,20 @@ class DiaryEntry:
         # If called again, `reading_chunk` should return the next chunk,
         # skipping what has already been read, until the contents is fully read.
         # The next call after that it should restart from the beginning.
-        pass
+        if wpm <= 0:
+            raise Exception("wpm can't be 0 or less")
+        
+        words_to_read = wpm * minutes
+
+        if self.words_read >= len(self.words):
+            self.words_read = 0
+
+        if self.words_read == 0:
+            chunk = ' '.join(self.words[:words_to_read])
+            self.words_read += words_to_read
+            return chunk
+        else:
+            chunk = ' '.join(self.words[self.words_read: self.words_read + words_to_read])
+            self.words_read += words_to_read
+            return chunk
+            
