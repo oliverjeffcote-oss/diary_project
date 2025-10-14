@@ -32,7 +32,7 @@ class Diary:
         # Returns:
         #   An integer representing an estimate of the reading time in minutes
         #   if the user were to read all entries in the diary.
-        return math.ceil(self.count_words() / wpm)
+        return sum(entry.reading_time(wpm) for entry in self.entries)
 
     def find_best_entry_for_reading_time(self, wpm, minutes):
         # Parameters:
@@ -70,7 +70,7 @@ class DiaryEntry:
         # Returns:
         #   An integer representing an estimate of the reading time in minutes
         #   for the contents at the given wpm.
-        pass
+        return math.ceil(self.count_words() / wpm)
 
     def reading_chunk(self, wpm, minutes):
         # Parameters:

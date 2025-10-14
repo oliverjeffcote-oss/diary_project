@@ -69,6 +69,31 @@ Given a wpm of 5 and 25 total words of entries
 #reading_time returns 5
 """
 
+def test_reading_time_returned_for_three_entries():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I ate a ham sandwich.")
+    entry_two = DiaryEntry("Tuesday", "I ate two ham sandwiches.")
+    entry_three = DiaryEntry("Wednesday", "I ate three ham sandwiches.")
+    diary.add(entry_one)
+    diary.add(entry_two)
+    diary.add(entry_three)
+    assert diary.reading_time(5) == 3
+
+"""
+Given a non integer reading time is calculated
+#reading_time returns an integer rounded up
+"""
+
+def test_reading_time_is_rounded_up():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I ate a ham sandwich.")
+    entry_two = DiaryEntry("Tuesday", "I ate two ham sandwiches.")
+    entry_three = DiaryEntry("Wednesday", "I ate three ham sandwiches and slept.")
+    diary.add(entry_one)
+    diary.add(entry_two)
+    diary.add(entry_three)
+    assert diary.reading_time(5) == 4
+
 """
 Given one entry of 25 words, and a wpm of 5 and 5 minutes
 #best_entry returns the entry
