@@ -1,4 +1,5 @@
 from lib.diary import Diary, DiaryEntry
+import pytest
 
 
 """
@@ -95,23 +96,47 @@ def test_reading_time_is_rounded_up():
     assert diary.reading_time(5) == 4
 
 """
-Given one entry of 25 words, and a wpm of 5 and 5 minutes
+Given one entry of 5 words, and a wpm of 5 and 1 minutes
 #best_entry returns the entry
 """
 
-
+def test_best_entry_returns_an_option():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I ate a ham sandwich.")
+    diary.add(entry_one)
+    assert diary.find_best_entry_for_reading_time(5,1) == entry_one
 
 """
-Given no entry under 25 words and a wpm of 5 and 5 minutes
-#best_entry returns "No entry available."
+Given no entry under 5 words and a wpm of 5 and 1 minutes
+#best_entry throws Exception "No entry available."
 """
+
+def test_no_returnable_entry_one():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I ate a ham sandwich and went to the park.")
+    diary.add(entry_one)
+    with pytest.raises(Exception) as e:
+        diary.find_best_entry_for_reading_time(5,1)
+    assert str(e.value) == "No entry available."
 
 """
 Given 3 entries, all under 25 words, and a wpm of 5 and 5 minutes
 #best_entry returns the closest entry under 25 words
 """
 
+def test_best_entry_returns_an_option_two():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I worked again.")
+    entry_two = DiaryEntry("Tues", "I ate a ham sandwich and went to the park.")
+    entry_three = DiaryEntry("Weds", "I ate a sandwich again.")
+    diary.add(entry_one)
+    diary.add(entry_two)
+    diary.add(entry_three)
+    assert diary.find_best_entry_for_reading_time(2,6) == entry_two
+
 
 """
-
+Given 2 entries that are the same length and closest to the reading time
+Returns a list with both entries as options.
 """
+

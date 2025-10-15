@@ -1,4 +1,4 @@
-from lib.diary import Diary, DiaryEntry
+from lib.diary import DiaryEntry
 import pytest
 
 """

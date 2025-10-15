@@ -44,7 +44,28 @@ class Diary:
         #   An instance of DiaryEntry representing the entry that is closest to,
         #   but not over, the length that the user could read in the minutes
         #   they have available given their reading speed.
-        pass
+        difference = None
+        entry_to_read = None
+
+        for entry in self.entries:
+            reading_time = entry.reading_time(wpm)
+            if reading_time <= minutes:
+                if difference == None:
+                    difference = minutes - reading_time
+                    entry_to_read = entry
+                elif (minutes - reading_time) < difference:
+                    difference = minutes - reading_time
+                    entry_to_read = entry
+                else:
+                    continue
+        if entry_to_read == None:
+            raise Exception("No entry available.")
+        else:
+            print(entry_to_read.contents)
+            return entry_to_read
+                
+        
+        
 
 
 # File: lib/diary_entry.py
@@ -113,3 +134,11 @@ class DiaryEntry:
             self.words_read += words_to_read
             return chunk
             
+# diary = Diary()
+# entry_one = DiaryEntry("Monday", "I worked again.")
+# entry_two = DiaryEntry("Tues", "I ate a ham sandwich and went to the park.")
+# entry_three = DiaryEntry("Weds", "I ate a sandwich again.")
+# diary.add(entry_one)
+# diary.add(entry_two)
+# diary.add(entry_three)
+# diary.find_best_entry_for_reading_time(2,6)
