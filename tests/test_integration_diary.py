@@ -104,7 +104,7 @@ def test_best_entry_returns_an_option():
     diary = Diary()
     entry_one = DiaryEntry("Monday", "I ate a ham sandwich.")
     diary.add(entry_one)
-    assert diary.find_best_entry_for_reading_time(5,1) == entry_one
+    assert diary.find_best_entry_for_reading_time(5,1) == [entry_one]
 
 """
 Given no entry under 5 words and a wpm of 5 and 1 minutes
@@ -132,11 +132,21 @@ def test_best_entry_returns_an_option_two():
     diary.add(entry_one)
     diary.add(entry_two)
     diary.add(entry_three)
-    assert diary.find_best_entry_for_reading_time(2,6) == entry_two
+    assert diary.find_best_entry_for_reading_time(2,6) == [entry_two]
 
 
 """
 Given 2 entries that are the same length and closest to the reading time
 Returns a list with both entries as options.
 """
+
+def test_same_length_entries_returns_two():
+    diary = Diary()
+    entry_one = DiaryEntry("Monday", "I worked again.")
+    entry_two = DiaryEntry("Tues", "I ate a ham sandwich and went to the park.")
+    entry_three = DiaryEntry("Weds", "I ate a cheese sandwich and went to the zoo.")
+    diary.add(entry_one)
+    diary.add(entry_two)
+    diary.add(entry_three)
+    assert diary.find_best_entry_for_reading_time(2,6) == [entry_two, entry_three]
 

@@ -45,23 +45,21 @@ class Diary:
         #   but not over, the length that the user could read in the minutes
         #   they have available given their reading speed.
         difference = None
-        entry_to_read = None
+        entry_to_read = []
 
         for entry in self.entries:
             reading_time = entry.reading_time(wpm)
             if reading_time <= minutes:
-                if difference == None:
+                if difference == None or (minutes - reading_time) < difference:
                     difference = minutes - reading_time
-                    entry_to_read = entry
-                elif (minutes - reading_time) < difference:
-                    difference = minutes - reading_time
-                    entry_to_read = entry
+                    entry_to_read = [entry]
+                elif (minutes - reading_time) == difference:
+                    entry_to_read.append(entry)
                 else:
                     continue
-        if entry_to_read == None:
+        if entry_to_read == []:
             raise Exception("No entry available.")
         else:
-            print(entry_to_read.contents)
             return entry_to_read
                 
         
